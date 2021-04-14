@@ -19,38 +19,62 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'      => 'required',
-            'email'     => 'required|email|unique:users',
-            'password'  => 'required|min:8',
+            'name'          => 'required',
+            'email'         => 'required|email|unique:users',
+            // 'department_id' => 'required|department_id',
+            'password'      => 'required|min:8',
         ]);
 
         User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'telefono'  => $request->telefono,
-            'password'  => bcrypt($request->password),
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'telefono'      => $request->telefono,
+            'department_id' => $request->department_id,
+            'password'      => bcrypt($request->password),
         ]);
 
         return back();
     }
 
-    public function show($id)
+    public function show($user)
     {
-        // $users =  User::findOrFail($id);
+        $users =  User::findOrFail($user);
 
-        // return 
+        return view('users.show', [
+            'users' => $users
+        ]);
     }
 
-    public function update(Request $request)
+    public function edit($id)
     {
-        User::update([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'telefono'  => $request->telefono,
-            'password'  => $request->password,
-        ]);
+        $user = User::find($id);
 
-        return back();
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+
+        $user->name         = $request->name;
+        $user->email        = $request->email;
+        $user->telefono     = $request->telefono;
+        $user->department_id   = $request->department_id;
+        $user->password     = bcrypt($request->password);
+
+        $user->save();
+
+        return redirect()
+            ->route('users.edit', $user)
+            ->with('info', 'El usuario ha sido actualizado correctamente');
+        ;
+        // $user = User::find($id);
+
+        // // Actualizamos
+        // $user->save();
+
+        // return redirect()
+        // ->route('users.index')
+        // ->with('info','El usuario ha sido actualizado');
     }
 
     public function destroy(User $user)

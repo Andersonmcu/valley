@@ -16,9 +16,12 @@
                 <div class="col-sm-12 mx-auto">
                     <br>
                     <div class="card border-1 shadow card-body">
-                        <p class="display-4">Crear Usuario</p>
-                        <form action="{{ route('users.store') }}" method="POST" style="padding: 15px">
+                        <p class="display-4">Editar Usuario  "{{ $user->name }}"</p>
+                        <form style="padding: 15px" action="{{ route('users.update', $user->id) }}" method="POST">
                             <div class="row card-body">
+                                @csrf
+
+                                @method('put')
                                 @if($errors->any())
                                 <div class="alert alert-danger">
                                 @foreach($errors->all() as $error)
@@ -28,19 +31,20 @@
                                 @endif
                                 <div class="col-sm-3">
                                     <label for="name"><strong>Nombre *</strong></label>
-                                    <input type="text" name="name" class="form-control" placeholder="Nombre" value="{{ old('name') }}">
+                                    <input type="text" name="name" class="form-control" placeholder="Nombre" value="{{ $user->name }}">
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="email"><strong>Correo electronico *</strong></label>
-                                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{ old('email') }}">
+                                    <input type="text" name="email" class="form-control" placeholder="Email" value="{{ $user->email }}">
                                 </div>
                                 <div class="col-sm-2">
                                     <label for="telefono"><strong>Teléfono *</strong></label>
-                                    <input type="text" name="telefono" class="form-control" placeholder="Telefono" value="{{ old('telefono') }}">
+                                    <input type="text" name="telefono" class="form-control" placeholder="Telefono" value="{{ $user->telefono }}">
                                 </div>
                                 <div class="col-sm-3">
                                 <label for="department_id"><strong>Area *</strong></label>
-                                    <select class="form-select" aria-label="Default select example" name="department_id" value="{{ old('department_id') }}">
+                                    <select class="form-select" aria-label="Default select example" name="department_id" value="{{ $user->department_id }}">
+                                        <option value="{{ $user->department_id }}" select></option></option>
                                         <option value="1">Administración</option>
                                         <option value="2">Mercadeo</option>
                                         <option value="3">Proyectos</option>
@@ -53,42 +57,12 @@
                                 </div>
                                 <div class="col-auto" style="padding: 10px">
                                     @csrf
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                    <a href="{{ route('index') }}" class="btn btn-default">Cancelar</a>
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <table class="table shadow">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                                <th>Area</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($users as $user)
-                            <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->telefono }}</td>
-                                <td>{{ $user->department_id }}</td>
-                                <td>
-                                    <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-                                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">Editar</a>
-                                        <input type="submit" value="Eliminar" class="btn btn-sm btn-danger" onclick="return confirm('¿Desea eliminar el usuario?')">
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

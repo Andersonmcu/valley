@@ -106,7 +106,8 @@ return [
     'attributes' => [
         'name' => 'nombre',
         'email' => 'email',
-        'numeric' => 'telefono'
+        'telefono' => 'telefono',
+        'department_id' => 'departamento'
     ],
 
 ];
