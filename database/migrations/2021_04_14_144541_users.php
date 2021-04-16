@@ -13,6 +13,12 @@ class Users extends Migration
      */
     public function up()
     {
+        Schema::create('department', function(Blueprint $table){
+            $table->id();
+            $table->string('name');
+            $table->timestamps(); //Date, created_at and updated_at
+        });
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('department_id')->unsigned();
@@ -37,5 +43,6 @@ class Users extends Migration
     public function down()
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('department');
     }
 }

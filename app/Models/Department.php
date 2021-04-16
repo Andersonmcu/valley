@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\Department as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Department extends Model
+class Department extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -17,5 +19,6 @@ class Department extends Model
     protected $fillable = [
         'name',
     ];
+
 
 }

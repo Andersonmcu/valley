@@ -17,7 +17,7 @@
                     <br>
                     <div class="card border-1 shadow card-body">
                         <p class="display-4">Crear Usuario</p>
-                        <form action="{{ route('users.store') }}" method="POST" style="padding: 15px">
+                        <form action="{{ route('department.store') }}" method="POST" style="padding: 15px">
                             <div class="row card-body">
                                 @if($errors->any())
                                 <div class="alert alert-danger">
@@ -70,13 +70,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($users as $user)
+                            @foreach($department as $area)
                             <tr>
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>{{ $user->telefono }}</td>
-                                <td>{{ $user->department_id }}</td>
+
+                                <td>{{ $area->department_id }}</td>
                                 <td>
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST">
                                         @method('DELETE')
